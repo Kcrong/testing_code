@@ -1,10 +1,3 @@
-"""
- Author: Anand B Pillai <abpillai at lycos dot com>
- Keywords: python, tools, converter, pdf, text2pdf, adobe, acrobat,
-           processing.
- 2nd Edit: Kcrong (GNU)
-"""
-
 import sys
 
 LF_EXTRA = 0
