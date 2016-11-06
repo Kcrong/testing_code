@@ -155,7 +155,9 @@ class pyText2Pdf:
 
             if listoftuples:
                 o, a = item
+                # o 가 옵션 이름, a 가 인자 데이터
             else:
+                # 옵션 없는 데이터면 (예를 들어 입력 txt 파일)
                 o = item
 
             if o == '-h':
@@ -278,7 +280,7 @@ class pyText2Pdf:
             if str[x] == '\n':
                 self._fpos += LF_EXTRA
         try:
-            self._ofs.write(str)
+            self._ofs.write(str.encode('utf-8'))
         except IOError as e:
             print(e)
             return -1
@@ -574,14 +576,14 @@ class pyText2Pdf:
 
         xref = self._fpos
         ws("xref\n")
-        buf = "".join(("0 ", str((self._curobj) + 1), "\n"))
+        buf = "".join(("0 ", str(self._curobj + 1), "\n"))
         ws(buf)
         buf = "".join(("0000000000 65535 f ", str(LINE_END)))
         ws(buf)
 
         for i in range(1, self._curobj + 1):
             val = self._locations[i]
-            buf = "".join((string.zfill(str(val), 10), " 00000 n ", str(LINE_END)))
+            buf = "".join((str(val).zfill(10), " 00000 n ", str(LINE_END)))
             ws(buf)
 
         ws("trailer\n")
