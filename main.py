@@ -5,10 +5,7 @@
  2nd Edit: Kcrong (GNU)
 """
 
-import sys, os
-import string
-import time
-import getopt
+import sys
 
 LF_EXTRA = 0
 LINE_END = '\015'
@@ -58,61 +55,20 @@ ENCODING_STR = """\
 >>
 """
 
-PROG_HELP = """\
-
-%(progname)s  [options] [filename]
-
-%(progname)s  makes a 7-bit clean PDF file from any input file.
-
-It reads from a named file, and writes the PDF file to a file specified by
-the user, otherwise to a file with '.pdf' appended to the input file.
-
-Author: Anand B Pillai.
-
-Copyright (C) 2003-2004 Free Software Foundation, http://www.fsf.org
-
-There are various options as follows:
-
-  -h\t\tshow this message\n
-  -o/-O\t\tdirect output to this file
-  -f<font>\tuse PostScript <font> (must be in standard 14, default: Courier)
-  -I\t\tuse ISOLatin1Encoding
-  -s<size>\tuse font at given pointsize (default 10) points\n
-  -v<dist>\tuse given line spacing (default 12) points
-  -l<lines>\tlines per page (default 60, determined automatically\n\t\tif unspecified)
-  -c<chars>\tmaximum characters per line (default 80)
-  -t<spaces>\tspaces per tab character (default 4)
-  -F\t\tignore formfeed characters (^L)
-    \t\t(i.e, accept formfeed characters as pagebreaks)\n
-  -A4\t\tuse A4 paper (default Letter)
-  -A3\t\tuse A3 paper (default Letter)
-  -x<width>\tindependent paper width in points
-  -y<height>\tindependent paper height in points
-  -2\t\tformat in 2 columns
-  -L\t\tlandscape mode
-
-Note that where one variable is implied by two options, the second option
-takes precedence for that variable. (e.g. -A4 -y500)
-
-In landscape mode, page width and height are simply swapped over before
-formatting, no matter how or when they were defined.
-"""
-
 
 class pyText2Pdf:
-    def __init__(self):
+    def __init__(self, input_file, font):
         # version number
-        self._version = "1.1.1"
         # iso encoding flag
         self._IsoEnc = 0
         # formfeeds flag
         self._doFFs = 0
-        self._progname = "PyText2Pdf"
-        self._appname = "".join((self._progname, " Version ", str(self._version)))
+
         # default font
-        self._font = "/Courier"
+        self._font = "/" + font
         # default font size
         self._ptSize = 10
+
         # default vert space
         self._vertSpace = 12
         self._lines = 0
@@ -124,7 +80,7 @@ class pyText2Pdf:
         # page wd
         self._pageWd = 612
         # input file
-        self._ifile = ""
+        self._ifile = input_file
         # output file
         self._ofile = ""
         # default tab width
@@ -145,6 +101,7 @@ class pyText2Pdf:
         # file position marker
         self._fpos = 0
 
+    # Use
     def writestr(self, str):
         """ Write string to output file descriptor.
         All output operations go through this function.
@@ -163,6 +120,7 @@ class pyText2Pdf:
 
         return 0
 
+    # Use
     def Convert(self):
         """ Perform the actual conversion """
 
@@ -208,24 +166,17 @@ class pyText2Pdf:
         self._ofs.close()
         return 0
 
+    # Use
     def WriteHeader(self, title):
         """Write the PDF header"""
 
         ws = self.writestr
 
-        t = time.localtime()
-        timestr = str(time.strftime("D:%Y%m%d%H%M%S", t))
         ws("%PDF-1.4\n")
         self._locations[1] = self._fpos
         ws("1 0 obj\n")
+        # Header
         ws("<<\n")
-
-        buf = "".join(("/Creator (", self._appname, " By Anand B Pillai )\n"))
-        ws(buf)
-        buf = "".join(("/CreationDate (", timestr, ")\n"))
-        ws(buf)
-        buf = "".join(("/Producer (", self._appname, "(\\251 Free Software Foundation, 2004))\n"))
-        ws(buf)
 
         if title:
             buf = "".join(("/Title (", title, ")\n"))
@@ -336,6 +287,7 @@ class pyText2Pdf:
         ws(buf)
         ws('endobj\n')
 
+    # Use
     def WritePages(self):
         """Write pages as PDF"""
 
@@ -370,7 +322,7 @@ class pyText2Pdf:
                         if not cond:
                             break
 
-                        if ord(ch) >= 32 and ord(ch) <= 127:
+                        if 32 <= ord(ch) <= 127:
                             if ch == '(' or ch == ')' or ch == '\\':
                                 ws("\\")
                             ws(ch)
@@ -427,6 +379,7 @@ class pyText2Pdf:
 
             self.EndPage(beginstream)
 
+    # Use
     def WriteRest(self):
         """Finish the file"""
 
@@ -475,14 +428,9 @@ class pyText2Pdf:
         ws(buf)
         ws("%%EOF\n")
 
-    def ShowHelp(self):
-        """Show help on this program"""
-
-        sys.exit(PROG_HELP % {'progname': self._progname})
-
 
 def main():
-    pdfclass = pyText2Pdf()
+    pdfclass = pyText2Pdf('input.txt', '1HoonWhayangyunwha')
     pdfclass.Convert()
 
 
