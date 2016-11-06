@@ -28,7 +28,7 @@ doc = SimpleDocTemplate("result.pdf")
 parts = [
     Paragraph("Who am i?", our_style),
     Image(filename, width=400, height=400),
-    Paragraph("I am Hyunwoo", our_style)
+    Paragraph("I am 현우", our_style)
 
 ]
 
