@@ -1,7 +1,3 @@
-"""
-모듈 의존성을 제외하면 제일 좋은 방법인듯
-폰트를 자동으로 포함시켜줌
-"""
 from reportlab.lib.colors import snow
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
