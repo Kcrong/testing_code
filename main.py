@@ -28,7 +28,7 @@ def draw_background(canvas, document):
                      width=594, height=841)
 
 
-doc = SimpleDocTemplate("sample2_result.pdf")
+doc = SimpleDocTemplate("result.pdf")
 parts = [
     Paragraph("Who am i?", our_style),
     Image(filename, width=400, height=400),
