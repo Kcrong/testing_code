@@ -10,9 +10,9 @@ from reportlab.platypus import Image
 from reportlab.platypus import Paragraph
 from reportlab.platypus import SimpleDocTemplate
 
-filename = 'test_png.png'
+filename = 'images/test_png.png'
 
-pdfmetrics.registerFont(TTFont('test', 'testfont.ttf'))
+pdfmetrics.registerFont(TTFont('test', 'fonts/testfont.ttf'))
 
 our_style = ParagraphStyle(name='custom_style',
                            fontName='test',
@@ -23,7 +23,7 @@ our_style = ParagraphStyle(name='custom_style',
 
 
 def draw_background(canvas, document):
-    canvas.drawImage('background.jpg', x=0, y=0,
+    canvas.drawImage('images/background.jpg', x=0, y=0,
                      # Default A1 size
                      width=594, height=841)
 
