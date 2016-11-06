@@ -305,8 +305,8 @@ class pyText2Pdf:
         try:
             self._ifs = open(self._ifile)
         except IOError as (strerror, errno):
-            print
-            'Error: Could not open file to read --->', self._ifile
+            print('Error: Could not open file to read --->', self._ifile)
+
             sys.exit(3)
 
         if self._ofile == "":
@@ -315,20 +315,20 @@ class pyText2Pdf:
         try:
             self._ofs = open(self._ofile, 'wb')
         except IOError as (strerror, errno):
-            print
-            'Error: Could not open file to write --->', self._ofile
+            print('Error: Could not open file to write --->', self._ofile)
+
             sys.exit(3)
 
-        print
-        'Input file =>', self._ifile
-        print
-        'Writing pdf file', self._ofile, '...'
+        print('Input file =>', self._ifile)
+
+        print('Writing pdf file', self._ofile, '...')
+
         self.WriteHeader(self._ifile)
         self.WritePages()
         self.WriteRest()
 
-        print
-        'Wrote file', self._ofile
+        print('Wrote file', self._ofile)
+
         self._ifs.close()
         self._ofs.close()
         return 0
