@@ -145,130 +145,6 @@ class pyText2Pdf:
         # file position marker
         self._fpos = 0
 
-    def argsCallBack(self, argslist, listoftuples=False):
-        """ Callback function called by argument parser.
-        Helps to remove duplicate code """
-
-        x = 0
-        while x < len(argslist):
-            item = argslist[x]
-
-            if listoftuples:
-                o, a = item
-                # o 가 옵션 이름, a 가 인자 데이터
-            else:
-                # 옵션 없는 데이터면 (예를 들어 입력 txt 파일)
-                o = item
-
-            if o == '-h':
-                self.ShowHelp()
-            elif o == '-I':
-                self._IsoEnc = 1
-            elif o == '-F':
-                self._doFFs = 1
-            elif o == '-2':
-                self._columns = 2
-            elif o == '-L':
-                self._landscape = 1
-
-            if o in ('-f', '-s', '-l', '-x', 'y', '-c', '-v', '-o', '-O'):
-
-                if not listoftuples:
-                    x += 1
-                    try:
-                        a = argslist[x]
-                    except:
-                        msg = "Argument error for option " + o
-                        sys.exit(msg)
-
-                if a == "" or a[0] == "-":
-                    msg = "Error: argument error for option " + o
-                    sys.exit(msg)
-                elif o == '-f':
-                    self._font = '/' + a
-                elif o == '-A':
-                    if a == '3':
-                        self._pageWd = 842
-                        self._pageHt = 1190
-                    elif a == '4':
-                        self._pageWd = 595
-                        self._pageHt = 842
-                    else:
-                        psz = o[1] + a
-                        print(self._progname, ': ignoring unknown paper size ', psz)
-
-                elif o == '-s':
-                    self._ptSize = int(a)
-                    if self._ptSize < 1:
-                        self._ptSize = 1
-                elif o == '-v':
-                    self._vertSpace = int(a)
-                    if self._vertSpace < 1:
-                        self._vertSpace = 1
-                elif o == '-l':
-                    self._lines = int(a)
-                    if self._lines < 1:
-                        self._lines = 1
-                elif o == '-c':
-                    self._cols = int(a)
-                    if self._cols < 4:
-                        self._cols = 4
-                elif o == '-t':
-                    self._tab = int(a)
-                    if self._tab < 1:
-                        self._tab = 1
-                elif o == '-x':
-                    self._pageWd = int(a)
-                    if self._pageWd < 72:
-                        self._pageWd = 72
-                elif o == '-y':
-                    self._pageHt = int(a)
-                    if self._pageHt < 72:
-                        self._pageHt = 72
-                elif o in ('-o', '-O'):
-                    self._ofile = a
-                else:
-                    print(self._progname, ': ignoring invalid switch: ', o)
-
-            x += 1
-
-    def parseArgs(self):
-
-        if len(sys.argv) == 1:
-            self.ShowHelp()
-
-        arguments = sys.argv[1:]
-
-        optlist, args = getopt.getopt(arguments, 'hIF2Lf:A:s:v:l:c:t:x:y:o:')
-
-        # input file is the first element in arg list
-        # or last element in options list (in case of an error!)
-        if len(args):
-            self._ifile = args[0]
-        else:
-            l = len(optlist)
-            tup = optlist[l - 1]
-
-        # parse options list
-        if len(optlist):
-            self.argsCallBack(optlist, listoftuples=True)
-        else:
-            self.argsCallBack(args)
-
-        if self._landscape:
-            print('Landscape option on...')
-
-        if self._columns == 2:
-            print('Printing in two columns...')
-
-        if self._doFFs:
-            print('Ignoring form feed character...')
-
-        if self._IsoEnc:
-            print('Using ISO Latin Encoding...')
-
-        print('Using font', self._font[1:], ' size =', self._ptSize)
-
     def writestr(self, str):
         """ Write string to output file descriptor.
         All output operations go through this function.
@@ -607,7 +483,6 @@ class pyText2Pdf:
 
 def main():
     pdfclass = pyText2Pdf()
-    pdfclass.parseArgs()
     pdfclass.Convert()
 
 
