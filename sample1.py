@@ -1,5 +1,3 @@
-import sys
-
 LF_EXTRA = 0
 LINE_END = '\015'
 # form feed character (^L)
@@ -133,7 +131,7 @@ class pyText2Pdf:
         except IOError:
             print('Error: Could not open file to read --->', self._ifile)
 
-            sys.exit(3)
+            exit(3)
 
         if self._ofile == "":
             self._ofile = self._ifile + '.pdf'
@@ -143,7 +141,7 @@ class pyText2Pdf:
         except IOError:
             print('Error: Could not open file to write --->', self._ofile)
 
-            sys.exit(3)
+            exit(3)
 
         print('Input file =>', self._ifile)
 
