@@ -281,7 +281,7 @@ class pyText2Pdf:
                 self._fpos += LF_EXTRA
         try:
             self._ofs.write(str)
-        except IOError, e:
+        except IOError as e:
             print
             e
             return -1
@@ -304,7 +304,7 @@ class pyText2Pdf:
 
         try:
             self._ifs = open(self._ifile)
-        except IOError, (strerror, errno):
+        except IOError as (strerror, errno):
             print
             'Error: Could not open file to read --->', self._ifile
             sys.exit(3)
@@ -314,7 +314,7 @@ class pyText2Pdf:
 
         try:
             self._ofs = open(self._ofile, 'wb')
-        except IOError, (strerror, errno):
+        except IOError as (strerror, errno):
             print
             'Error: Could not open file to write --->', self._ofile
             sys.exit(3)
