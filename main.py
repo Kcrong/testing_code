@@ -193,8 +193,8 @@ class pyText2Pdf:
                         self._pageHt = 842
                     else:
                         psz = o[1] + a
-                        print
-                        self._progname, ': ignoring unknown paper size ', psz
+                        print(self._progname, ': ignoring unknown paper size ', psz)
+
                 elif o == '-s':
                     self._ptSize = int(a)
                     if self._ptSize < 1:
@@ -226,8 +226,7 @@ class pyText2Pdf:
                 elif o in ('-o', '-O'):
                     self._ofile = a
                 else:
-                    print
-                    self._progname, ': ignoring invalid switch: ', o
+                    print(self._progname, ': ignoring invalid switch: ', o)
 
             x += 1
 
@@ -255,19 +254,18 @@ class pyText2Pdf:
             self.argsCallBack(args)
 
         if self._landscape:
-            print
-            'Landscape option on...'
+            print('Landscape option on...')
+
         if self._columns == 2:
-            print
-            'Printing in two columns...'
+            print('Printing in two columns...')
+
         if self._doFFs:
-            print
-            'Ignoring form feed character...'
+            print('Ignoring form feed character...')
+
         if self._IsoEnc:
-            print
-            'Using ISO Latin Encoding...'
-        print
-        'Using font', self._font[1:], ' size =', self._ptSize
+            print('Using ISO Latin Encoding...')
+
+        print('Using font', self._font[1:], ' size =', self._ptSize)
 
     def writestr(self, str):
         """ Write string to output file descriptor.
@@ -282,8 +280,7 @@ class pyText2Pdf:
         try:
             self._ofs.write(str)
         except IOError as e:
-            print
-            e
+            print(e)
             return -1
 
         return 0
@@ -304,7 +301,7 @@ class pyText2Pdf:
 
         try:
             self._ifs = open(self._ifile)
-        except IOError as (strerror, errno):
+        except IOError:
             print('Error: Could not open file to read --->', self._ifile)
 
             sys.exit(3)
@@ -314,7 +311,7 @@ class pyText2Pdf:
 
         try:
             self._ofs = open(self._ofile, 'wb')
-        except IOError as (strerror, errno):
+        except IOError:
             print('Error: Could not open file to write --->', self._ofile)
 
             sys.exit(3)
@@ -431,7 +428,7 @@ class pyText2Pdf:
         ws("stream\n")
         strmPos = self._fpos
 
-        ws("BT\n");
+        ws("BT\n")
         buf = "".join(("/F1 ", str(self._ptSize), " Tf\n"))
         ws(buf)
         buf = "".join(("1 0 0 1 50 ", str(self._pageHt - 40), " Tm\n"))
